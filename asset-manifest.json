@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/WicunaLiveWebsite/static/css/main.89b7c5c1.css",
-    "main.js": "/WicunaLiveWebsite/static/js/main.7fa8332a.js",
+    "main.css": "/WicunaLiveWebsite/static/css/main.beb4910f.css",
+    "main.js": "/WicunaLiveWebsite/static/js/main.594c5868.js",
     "index.html": "/WicunaLiveWebsite/index.html",
-    "main.89b7c5c1.css.map": "/WicunaLiveWebsite/static/css/main.89b7c5c1.css.map",
-    "main.7fa8332a.js.map": "/WicunaLiveWebsite/static/js/main.7fa8332a.js.map"
+    "main.beb4910f.css.map": "/WicunaLiveWebsite/static/css/main.beb4910f.css.map",
+    "main.594c5868.js.map": "/WicunaLiveWebsite/static/js/main.594c5868.js.map"
   },
   "entrypoints": [
-    "static/css/main.89b7c5c1.css",
-    "static/js/main.7fa8332a.js"
+    "static/css/main.beb4910f.css",
+    "static/js/main.594c5868.js"
   ]
 }
