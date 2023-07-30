@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/WicunaLiveWebsite/static/css/main.89b7c5c1.css",
+    "main.js": "/WicunaLiveWebsite/static/js/main.7fa8332a.js",
+    "index.html": "/WicunaLiveWebsite/index.html",
+    "main.89b7c5c1.css.map": "/WicunaLiveWebsite/static/css/main.89b7c5c1.css.map",
+    "main.7fa8332a.js.map": "/WicunaLiveWebsite/static/js/main.7fa8332a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.89b7c5c1.css",
+    "static/js/main.7fa8332a.js"
+  ]
+}
