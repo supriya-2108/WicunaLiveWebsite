@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 
 const Description = (props) => {
-    const [description,setdescription]=useState();
+    const [description,setdescription]=useState("");
     const saveDesc=(event)=>{
-        const {name,value}=event.target;
-            setdescription((prevFormDate)=>({...prevFormDate,[name]:value}));
+        setdescription(event.target.value);
+       
     }
     const clickedbutton=()=>{
-        props.description(description);
+        console.log(description)
 }
   return (
     <>
