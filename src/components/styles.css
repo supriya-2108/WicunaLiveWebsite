@@ -235,12 +235,40 @@
   }
 
   .input_class{
-    text-align: center;
+    text-align: left;
     justify-content: center;
     margin-bottom: 1%;
+    margin-left: 20%;
+    padding: 1%;
   }
 
   .input_class_Measurement{
     margin-left: 40%;margin-top: 1%;
     height:40px
+  }
+
+  .clientForm{
+    width: 30%;
+    float: left;
+    padding: 10px;
+    /* border: 2px solid; */
+    float: left;
+  }
+
+  .clientForm.client{
+    margin-right: 30px;
+    margin-left: 30px;
+  }
+
+  .input_class.inner{
+    margin-bottom: 4%;
+    height:40px
+  }
+
+  .saveButton{
+    margin-Left:"41%";margin-Top:"2%";background-Color:"green";height:"40px";width:"80px";
+  }
+
+  .saveButton.save{
+    /* float:inline-end */
   }

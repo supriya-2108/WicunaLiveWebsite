@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const Description = () => {
+const Description = (props) => {
+    const [description,setdescription]=useState();
+    const saveDesc=(event)=>{
+        const {name,value}=event.target;
+            setdescription((prevFormDate)=>({...prevFormDate,[name]:value}));
+    }
+    const clickedbutton=()=>{
+        props.description(description);
+}
   return (
-    <textarea style={{width:"400px",height:"200px",marginLeft:"30%",marginTop:"1%"}} placeholder='Other Description'/>
+    <>
+        {/* <h3 style={{marginTop:"0.5%"}}>DESCRIPTION</h3> */}
+        <textarea style={{height:"200px",width:"200px",marginLeft:"4%",marginTop:"4%"}} name="decription" value={description} onChange={saveDesc} placeholder='Enter Detailed Description'/>
+    <button onClick={clickedbutton}  style={{width:"15%",height:"40px",backgroundColor:"Orange",marginLeft:"5%"}}>Save Description</button>
+    </>
   )
 }
 

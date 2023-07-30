@@ -15,16 +15,16 @@ const BodyMeasurement = (props) => {
     }
     
   return (
-    <div>
-      <h3>MEASUREMENT</h3>
+    <>
+      <h3 style={{marginLeft:"43%"}}>MEASUREMENT</h3>
       {
         itemsName.map((val)=>{
             return <><input type="text" name={val} value={measureData.val} onChange={saveMeasure} className='input_class_Measurement' placeholder={val} /><br/></>
         })
       }
-      <button onClick={clickedbutton}>Ok</button>
+      <button onClick={clickedbutton} style={{marginTop:"5%",marginLeft:"40%",width:"50%",height:"40px",backgroundColor:"Orange"}}>Save Measurement</button>
        
-    </div>
+    </>
   )
 }
 
