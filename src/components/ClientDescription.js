@@ -4,42 +4,54 @@ import Description from './Description';
 
 const ClientDescription = () => {    
   
-  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",type:"",bodyMeasurement:[],Description:""})
+  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",bodyMeasurement:[],Description:""})
         const ChangeValue=(event)=>{
             const {name,value}=event.target;
             setclientData((prevFormDate)=>({...prevFormDate,[name]:value}));
         }
-          const savemeasure=(bodyMeasurement)=>{
+        var update=()=>{};
+        var updateMeasurement=()=>{}
+          const savemeasure=(bodyMeasurement,setMeasurementData)=>{
             clientData.bodyMeasurement=bodyMeasurement;
-            
+           updateMeasurement=setMeasurementData;
           }
-          const savedescription=(description)=>{
+          const savedescription=(description,setdescription)=>{
             clientData.Description=description;
-            
+            update=  setdescription;
+            // update("");
           }
         const SaveChanges=async(event)=>{
              event.preventDefault();
-            const {name,number,address,dod,noi,type,bodyMeasurement,Description}=clientData;
+            const {name,number,address,dod,noi,bodyMeasurement,Description}=clientData;
             const res= await fetch(
               "https://wicunaclientsdata-default-rtdb.firebaseio.com/wicunadata.json",
               {
                   method:"POST",
                   headers:{
                       "Content-Type":"application/json",
-
-                  },
+                  }, 
                   body:JSON.stringify({
-                    name,number,address,dod,noi,type,bodyMeasurement,Description
+                    name,number,address,dod,noi,bodyMeasurement,Description
                   })
               }
             )
-      
+            if(res.statusText==="OK"){
+                alert("Details are saved");
+                setclientData({
+                  name:"",number:"",address:"",dod:"",noi:"",type:""
+                });
+                  update("");
+                  updateMeasurement({
+                    KurtiLength:"",BlouseLength:"",Shoulder:"",UpperChest:"",Chest:"",UpperWaist:"",Waist:"",Tummy:"",Hip:"",ChestLength:"",WaistLength:"",HipLength:"",Armhole:"",UpperArm:'',SleevesLength:'',SleevesBottom:"",FrontCross:"",BackCross:"",BottomLength:"",BottomWaist:"",Thigh:"",Knee:"",Calve:"",Mori:""
+         
+                  })
+            };
       }
   return (
     <>    
           <br/>
           <br/>
-         <form className='input_class' onSubmit={SaveChanges} >
+         <div className='input_class'>
           <div className='clientForm client'>
               <h3 style={{marginLeft:"21%",marginBottom:"2%"}}>CLIENT DESCRIPTION</h3>
               <input type="text" className='input_class inner' name="name" value={clientData.name} onChange={ChangeValue} placeholder='CLIENT NAME'/>
@@ -58,8 +70,8 @@ const ClientDescription = () => {
         </div>
               
         <Description description={savedescription}/>
-        <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}}>Save Data</button>
-        </form>
+        <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}} onClick={SaveChanges}>Save Data</button>
+        </div>
     </>
    
   )

@@ -7,7 +7,8 @@ const Description = (props) => {
        
     }
     const clickedbutton=()=>{
-        props.description(description);
+        // setdescription("");
+        props.description(description,setdescription);
 }
   return (
     <>
