@@ -36,7 +36,20 @@ const ClientDescription = () => {
               }
             )
             if(res.statusText==="OK"){
-                alert("Details are saved");
+                // alert("Details are saved");
+                var url="Name Of Customer: "+clientData.name+"%0a"
+                +"Number: "+clientData.number+"%0a"
+                +"Address: "+clientData.address+"%0a"
+                +"No. Of Items: "+clientData.noi+"%0a"
+                +"Date Of Delivery: "+clientData.dod+"%0a";
+                var whatsappurl="https://wa.me/"+clientData.number+"?text="
+                                +"WicunaKraft Order Summary %0a"+url;
+                                window.open(whatsappurl,"_blank").focus();
+
+              //  var whatsappurlforbackend="https://wa.me/8178909878?text="
+              //                   +"WicunaKraft Client Order Summary %0a"+url;
+              //                   window.open(whatsappurlforbackend,"_blank").focus();
+
                 setclientData({
                   name:"",number:"",address:"",dod:"",noi:"",type:""
                 });
