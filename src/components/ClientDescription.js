@@ -36,6 +36,7 @@ const ClientDescription = () => {
               }
             )
             if(res.statusText==="OK"){
+              const date =new Date().toJSON().slice(0, 10);
                 var url="Name Of Customer: "+clientData.name+"%0a"
                 +"Address: "+clientData.address+"%0a"
                 +"Date Of Appointment: "+date+"%0a"
