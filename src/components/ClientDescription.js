@@ -4,7 +4,7 @@ import Description from './Description';
 
 const ClientDescription = () => {    
   
-  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",bodyMeasurement:[],Description:""})
+  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",totalbill:"",bodyMeasurement:[],Description:""})
         const ChangeValue=(event)=>{
             const {name,value}=event.target;
             setclientData((prevFormDate)=>({...prevFormDate,[name]:value}));
@@ -18,11 +18,11 @@ const ClientDescription = () => {
           const savedescription=(description,setdescription)=>{
             clientData.Description=description;
             update=  setdescription;
-            // update("");
           }
+          
         const SaveChanges=async(event)=>{
              event.preventDefault();
-            const {name,number,address,dod,noi,bodyMeasurement,Description}=clientData;
+            const {name,number,address,dod,noi,totalbill,bodyMeasurement,Description}=clientData;
             const res= await fetch(
               "https://wicunaclientsdata-default-rtdb.firebaseio.com/wicunadata.json",
               {
@@ -31,34 +31,46 @@ const ClientDescription = () => {
                       "Content-Type":"application/json",
                   }, 
                   body:JSON.stringify({
-                    name,number,address,dod,noi,bodyMeasurement,Description
+                    name,number,address,dod,noi,totalbill,bodyMeasurement,Description
                   })
               }
             )
             if(res.statusText==="OK"){
-                // alert("Details are saved");
                 var url="Name Of Customer: "+clientData.name+"%0a"
-                +"Number: "+clientData.number+"%0a"
                 +"Address: "+clientData.address+"%0a"
+                +"Date Of Appointment: "+date+"%0a"
                 +"No. Of Items: "+clientData.noi+"%0a"
-                +"Date Of Delivery: "+clientData.dod+"%0a";
+                +"Date Of Delivery: "+clientData.dod+"%0a"
+                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a";
                 var whatsappurl="https://wa.me/"+clientData.number+"?text="
                                 +"WicunaKraft Order Summary %0a"+url;
                                 window.open(whatsappurl,"_blank").focus();
-
-              //  var whatsappurlforbackend="https://wa.me/8178909878?text="
-              //                   +"WicunaKraft Client Order Summary %0a"+url;
-              //                   window.open(whatsappurlforbackend,"_blank").focus();
-
-                setclientData({
-                  name:"",number:"",address:"",dod:"",noi:"",type:""
-                });
-                  update("");
-                  updateMeasurement({
-                    KurtiLength:"",BlouseLength:"",Shoulder:"",UpperChest:"",Chest:"",UpperWaist:"",Waist:"",Tummy:"",Hip:"",ChestLength:"",WaistLength:"",HipLength:"",Armhole:"",UpperArm:'',SleevesLength:'',SleevesBottom:"",FrontCross:"",BackCross:"",BottomLength:"",BottomWaist:"",Thigh:"",Knee:"",Calve:"",Mori:""
-         
-                  })
+             
+                
             };
+      }
+
+      const SendDetails=()=>{
+        const date =new Date().toJSON().slice(0, 10);
+        var url="Name Of Customer: "+clientData.name+"%0a"
+                +"Address: "+clientData.address+"%0a"
+                +"Date Of Appointment: "+date+"%0a"
+                +"Number: "+clientData.number+"%0a"
+                +"No. Of Items: "+clientData.noi+"%0a"
+                +"Date Of Delivery: "+clientData.dod+"%0a"
+                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a";
+                var whatsappurl="https://wa.me/8178909878?text="
+                                +"WicunaKraft Client Order Summary %0a"+url;
+                                window.open(whatsappurl,"_blank").focus();
+
+                                setclientData({
+                                  name:"",number:"",address:"",dod:"",noi:"",totalbill:""
+                                });
+                                  update("");
+                                  updateMeasurement({
+                                    KurtiLength:"",BlouseLength:"",Shoulder:"",UpperChest:"",Chest:"",UpperWaist:"",Waist:"",Tummy:"",Hip:"",ChestLength:"",WaistLength:"",HipLength:"",Armhole:"",UpperArm:'',SleevesLength:'',SleevesBottom:"",FrontNeck:"",BackNeck:"",FrontCross:"",BackCross:"",BottomLength:"",BottomWaist:"",Thigh:"",Knee:"",Calve:"",Mori:""
+                                  })
+                                
       }
   return (
     <>    
@@ -76,6 +88,8 @@ const ClientDescription = () => {
               <input type="text" className='input_class inner' name="dod" value={clientData.dod} onChange={ChangeValue} placeholder='DATE OF DELIVERY'/>
               <br/>
               <input type="text"className='input_class inner' name="noi" value={clientData.noi} onChange={ChangeValue}  placeholder='NO. OF ITEMS'/>
+              <br/>
+              <input type="text"className='input_class inner' name="totalbill" value={clientData.totalbill} onChange={ChangeValue}  placeholder='Total Bill'/>
 
           </div>
         <div className='clientForm'>
@@ -83,7 +97,10 @@ const ClientDescription = () => {
         </div>
               
         <Description description={savedescription}/>
+       
         <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}} onClick={SaveChanges}>Save Data</button>
+        <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}} onClick={SendDetails}>Send Details</button>
+       
         </div>
     </>
    

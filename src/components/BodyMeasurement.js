@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const BodyMeasurement = (props) => {
     const [measureData,setMeasurementData]=useState({
-        KurtiLength:"",BlouseLength:"",Shoulder:"",UpperChest:"",Chest:"",UpperWaist:"",Waist:"",Tummy:"",Hip:"",ChestLength:"",WaistLength:"",HipLength:"",Armhole:"",UpperArm:'',SleevesLength:'',SleevesBottom:"",FrontCross:"",BackCross:"",BottomLength:"",BottomWaist:"",Thigh:"",Knee:"",Calve:"",Mori:""
+        KurtiLength:"",BlouseLength:"",Shoulder:"",UpperChest:"",Chest:"",UpperWaist:"",Waist:"",Tummy:"",Hip:"",ChestLength:"",WaistLength:"",HipLength:"",Armhole:"",UpperArm:'',FrontNeck:"",BackNeck:"",SleevesLength:'',SleevesBottom:"",FrontCross:"",BackCross:"",BottomLength:"",BottomWaist:"",Thigh:"",Knee:"",Calve:"",Mori:""
     })
     const saveMeasure=(event)=>{
       const {name,value}=event.target;
@@ -32,6 +32,8 @@ const BodyMeasurement = (props) => {
       <input type="text" name="UpperArm" value={measureData.UpperArm} onChange={saveMeasure} className='input_class_Measurement' placeholder="UpperArm" />
       <input type="text" name="SleevesLength" value={measureData.SleevesLength} onChange={saveMeasure} className='input_class_Measurement' placeholder="Sleeves Length" />
       <input type="text" name="SleevesBottom" value={measureData.SleevesBottom} onChange={saveMeasure} className='input_class_Measurement' placeholder="Sleeves Bottom" />
+      <input type="text" name="FrontNeck" value={measureData.FrontNeck} onChange={saveMeasure} className='input_class_Measurement' placeholder="Front Neck" />
+      <input type="text" name="BackNeck" value={measureData.BackNeck} onChange={saveMeasure} className='input_class_Measurement' placeholder="Back Neck" />
       
       <input type="text" name="FrontCross" value={measureData.FrontCross} onChange={saveMeasure} className='input_class_Measurement' placeholder="Front Cross" />
       <input type="text" name="BackCross" value={measureData.BackCross} onChange={saveMeasure} className='input_class_Measurement' placeholder="Back Cross" />
