@@ -1,11 +1,18 @@
-import React, { useState } from 'react' 
+import React, { useEffect, useState } from 'react' 
 import BodyMeasurement from './BodyMeasurement';
 import Description from './Description';
-
+import {getDownloadURL, listAll, ref ,uploadBytes} from 'firebase/storage'
+import { storage } from './Firebase';
+import {v4} from 'uuid';
 const ClientDescription = () => {    
   
-  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",totalbill:"",bodyMeasurement:[],Description:""})
-        const ChangeValue=(event)=>{
+  const [clientData,setclientData]=useState({name:"",number:"",address:"",dod:"",noi:"",totalbill:"",picture:"",bodyMeasurement:[],Description:""})
+  const [fabricimageUpload,setfabricimageUpload]=useState(null); 
+  const [designimageUpload,setDesignimageUpload]=useState(null);    
+  const [fabricimageUrls,setFabricImageUrls]=useState([]);
+  
+  const [designimageUrls,setDesignImageUrls]=useState([]);
+  const ChangeValue=(event)=>{
             const {name,value}=event.target;
             setclientData((prevFormDate)=>({...prevFormDate,[name]:value}));
         }
@@ -17,12 +24,51 @@ const ClientDescription = () => {
           }
           const savedescription=(description,setdescription)=>{
             clientData.Description=description;
-            update=  setdescription;
           }
-          
-        const SaveChanges=async(event)=>{
+          const fabricimagesListRef=ref(storage,'Fabrics/');
+          const designimagesListRef=ref(storage,'Designs/');
+          const UploadFabricImage=()=>{
+            if (fabricimageUpload == null) return;
+            const imageRef= ref(storage,`Fabrics/${fabricimageUpload.name + clientData.name + new Date().toJSON().slice(0, 10) + v4()}`);
+            uploadBytes(imageRef,fabricimageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url) => {
+                setFabricImageUrls((prev) => [...prev, url]);
+              });
+            });
+          } ;
+
+          const UploadDesignImage=()=>{
+            if (designimageUpload == null) return;
+            const imageRef= ref(storage,`Designs/${designimageUpload.name + clientData.name + new Date().toJSON().slice(0, 10) + v4()}`);
+            uploadBytes(imageRef,designimageUpload).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url) => {
+                setDesignImageUrls((prev) => [...prev, url]);
+              });
+            });
+          } ;
+
+         
+
+          useEffect(() => {
+            listAll(fabricimagesListRef).then((response) => {
+              response.items.forEach((item) => {
+                getDownloadURL(item).then((url) => {
+                  setFabricImageUrls((prev) => [...prev, url]);
+                });
+              });
+            });
+            listAll(designimagesListRef).then((response) => {
+              response.items.forEach((item) => {
+                getDownloadURL(item).then((url) => {
+                  setDesignImageUrls((prev) => [...prev, url]);
+                });
+              });
+            });
+          }, []);
+        
+                 const SaveChanges=async(event)=>{
              event.preventDefault();
-            const {name,number,address,dod,noi,totalbill,bodyMeasurement,Description}=clientData;
+            const {name,number,address,dod,noi,totalbill,picture,bodyMeasurement,Description}=clientData;
             const res= await fetch(
               "https://wicunaclientsdata-default-rtdb.firebaseio.com/wicunadata.json",
               {
@@ -31,18 +77,25 @@ const ClientDescription = () => {
                       "Content-Type":"application/json",
                   }, 
                   body:JSON.stringify({
-                    name,number,address,dod,noi,totalbill,bodyMeasurement,Description
+                    name,number,address,dod,noi,totalbill,picture,bodyMeasurement,Description
                   })
               }
             )
+           
+          
+
             if(res.statusText==="OK"){
               const date =new Date().toJSON().slice(0, 10);
+              const num =fabricimageUrls.length-1;
+              const num1=designimageUrls.length-1;
                 var url="Name Of Customer: "+clientData.name+"%0a"
                 +"Address: "+clientData.address+"%0a"
                 +"Date Of Appointment: "+date+"%0a"
                 +"No. Of Items: "+clientData.noi+"%0a"
                 +"Date Of Delivery: "+clientData.dod+"%0a"
-                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a";
+                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a"+
+                "Given Fabric"+fabricimageUrls[num]+
+                "Selected Design"+designimageUrls[num1];
                 var whatsappurl="https://wa.me/"+clientData.number+"?text="
                                 +"WicunaKraft Order Summary %0a"+url;
                                 window.open(whatsappurl,"_blank").focus();
@@ -53,6 +106,8 @@ const ClientDescription = () => {
 
       const SendDetails=()=>{
         const date =new Date().toJSON().slice(0, 10);
+        const blob =  fabricimageUrls[0].blob();
+        const file = new File([blob], fabricimageUrls[0], {type: blob.type});
         var url="Name Of Customer: "+clientData.name+"%0a"
                 +"Address: "+clientData.address+"%0a"
                 +"Date Of Appointment: "+date+"%0a"
@@ -60,7 +115,7 @@ const ClientDescription = () => {
                 +"No. Of Items: "+clientData.noi+"%0a"
                 +"Date Of Delivery: "+clientData.dod+"%0a"
                 +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a";
-                var whatsappurl="https://wa.me/8178909878?text="
+                var whatsappurl="https://wa.me/8178909878?image="
                                 +"WicunaKraft Client Order Summary %0a"+url;
                                 window.open(whatsappurl,"_blank").focus();
 
@@ -95,14 +150,17 @@ const ClientDescription = () => {
           </div>
         <div className='clientForm'>
              <BodyMeasurement measurement={savemeasure}/>
-        </div>
-              
-        <Description description={savedescription}/>
-       
+        </div>             
+        <Description description={savedescription}/><br/>
+        <input type="file" className='input_class inner' onChange={(event)=>{setfabricimageUpload(event.target.files[0])}}/>
+      <button style={{marginLeft:"-7%",width:"15%",height:"40px",backgroundColor:"orange"}}  onClick={UploadFabricImage}> Upload Fabric Images</button><br/>
+      <input type="file" className='input_class inner' onChange={(event)=>{setDesignimageUpload(event.target.files[0])}}/>
+      <button style={{marginLeft:"-7%",width:"15%",height:"40px",backgroundColor:"orange"}} onClick={UploadDesignImage}> Upload Design Images</button>
         <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}} onClick={SaveChanges}>Save Data</button>
         <button type="submit" style={{marginLeft:"41%",marginTop:"2%",width:"15%",height:"40px",backgroundColor:"green"}} onClick={SendDetails}>Send Details</button>
-       
+    
         </div>
+        
     </>
    
   )
