@@ -94,8 +94,8 @@ const ClientDescription = () => {
                 +"No. Of Items: "+clientData.noi+"%0a"
                 +"Date Of Delivery: "+clientData.dod+"%0a"
                 +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a"+
-                "Given Fabric"+fabricimageUrls[num]+
-                "Selected Design"+designimageUrls[num1];
+                "Given Fabric : "+fabricimageUrls[num]+"%0a"+
+                "Selected Design"+designimageUrls[num1]+"%0a";
                 var whatsappurl="https://wa.me/"+clientData.number+"?text="
                                 +"WicunaKraft Order Summary %0a"+url;
                                 window.open(whatsappurl,"_blank").focus();
