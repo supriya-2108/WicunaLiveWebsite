@@ -85,22 +85,17 @@ const ClientDescription = () => {
           
 
             if(res.statusText==="OK"){
+              console.log(fabricimageUrls[0])
               const date =new Date().toJSON().slice(0, 10);
-              const num =fabricimageUrls.length-1;
-              const num1=designimageUrls.length-1;
                 var url="Name Of Customer: "+clientData.name+"%0a"
                 +"Address: "+clientData.address+"%0a"
                 +"Date Of Appointment: "+date+"%0a"
                 +"No. Of Items: "+clientData.noi+"%0a"
                 +"Date Of Delivery: "+clientData.dod+"%0a"
-                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a"+
-                "Given Fabric : "+fabricimageUrls[num]+"%0a"+
-                "Selected Design"+designimageUrls[num1]+"%0a";
+                +"Total Bill: "+clientData.totalbill+"(5% gst additonal)%0a";
                 var whatsappurl="https://wa.me/"+clientData.number+"?text="
                                 +"WicunaKraft Order Summary %0a"+url;
                                 window.open(whatsappurl,"_blank").focus();
-             
-                
             };
       }
 
